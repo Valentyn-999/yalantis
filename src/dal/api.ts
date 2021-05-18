@@ -12,6 +12,11 @@ export type EmployeeType = {
     id: string
 }
 
+type IsCheckedType  = {
+    isChecked: boolean
+}
+export type EmployeeType2 = EmployeeType & IsCheckedType
+
 export const API = {
     getEmployees() {
         return instance.get('task0/users')

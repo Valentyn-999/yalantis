@@ -1,10 +1,10 @@
 import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "./store";
-import {EmployeeType} from "../dal/api";
+import {EmployeeType, EmployeeType2} from "../dal/api";
 
 
 const initialState = {
-    bthEmployees: [] as Array<EmployeeType>
+    bthEmployees: [] as Array<EmployeeType2>
 }
 
 
@@ -14,11 +14,14 @@ export type InitialStateType = typeof initialState
 export const birthdayReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case getEmployee: {
-            const arr = []
-            arr.push(action.data)
-            return {
-                ...state, bthEmployees:state.bthEmployees.concat(arr)
+            let res =  {
+                ...state,
+                bthEmployees: [...state.bthEmployees, {...action.data, isChecked: true}  ]
             }
+            return res
+        }
+        case removeEmployees: {
+            return {...state, bthEmployees: state.bthEmployees.filter(el => el !== action.data)}
         }
         default:
             return state
@@ -31,15 +34,10 @@ type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsType>
 
 
 //ac
-export const getEmployeesAC = (data: EmployeeType) => ({ type: getEmployee, data } as const )
+// export const getEmployeesAC = (data: EmployeeType) => ({type: getEmployee, data} as const)
+export const removeEmployeesAC = (data: EmployeeType) => ({type: removeEmployees, data} as const)
 
-//tc
-// export const getEmployeesTC = ():ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
-//     API.getEmployees()
-//         .then((res: AxiosResponse<Array<EmployeeType>>) => {
-//             const {data} = res
-//             dispatch(getEmployeesAC(data))
-//         })
-// }
 
 const getEmployee = 'getEmployee'
+const removeEmployees = 'removeEmployees'
+
