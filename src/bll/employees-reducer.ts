@@ -17,7 +17,8 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
     switch (action.type) {
         case getEmployees:
             let a = {
-                ...state, employees: action.data.map((el: any) => {
+                ...state,
+                employees: action.data.map((el: any) => {
                     return {...el, isChecked: false}
                 })
             }
@@ -25,27 +26,43 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
 
 
         case addEmployees: {
+            let arr = [...state.employeesBirthday]
+            state.employees.filter((el) => {
+                if (el === action.data) {
+                    arr.push({...el, isChecked: true})
+                    return {...el, isChecked: true}
+                } else {
+                    return null
+                }
+            })
             let b = {
                 ...state,
-                employeesBirthday: state.employees.map((el) => {
+                employees: state.employees.map((el) => {
                     if (el.id === action.data.id) {
                         return {...el, isChecked: true}
                     } else {
                         return el
                     }
-                })
+                }),
+                employeesBirthday:  arr
             }
             return b
         }
         case removeEmployees: {
-            let c  = {
+            let c = {
                 ...state,
-                // employeesBirthday
+                employees: state.employees.map((el) => {
+                    if (el.id === action.data.id) {
+                        return {...el, isChecked: false}
+                    } else {
+                        return el
+                    }
+                }),
+                employeesBirthday: state.employeesBirthday.filter((el) => el.id !== action.data.id)
             }
-            debugger
-            return state
-            // return {...state, bthEmployees: state.bthEmployees.filter(el => el !== action.data)}
+            return c
         }
+        // return {...state, bthEmployees: state.bthEmployees.filter(el => el !== action.data)}
 
         default:
             return state
@@ -59,8 +76,9 @@ type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsType>
 
 //ac
 export const getEmployeesAC = (data: Array<EmployeeType2>) => ({type: getEmployees, data} as const)
+export const addEmployeesBirthdayAC = (data: EmployeeType2) => ({type: addEmployees, data} as const)
+export const removeEmployeesAC = (data: EmployeeType2) => ({type: removeEmployees, data} as const)
 
-export const addEmployeesBirhdayAC = (data: EmployeeType) => ({type: addEmployees, data} as const)
 
 //tc
 export const getEmployeesTC = (): ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {

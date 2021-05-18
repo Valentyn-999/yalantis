@@ -1,10 +1,10 @@
-import React, {FormEvent, useEffect} from 'react';
+import React from 'react';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../bll/store";
-import {EmployeeType} from "../../dal/api";
+import {EmployeeType2} from "../../dal/api";
 
 export const EmployeesBirthday = () => {
-    const state = useSelector<AppRootStateType, Array<EmployeeType>>(s => s.employeesBth.bthEmployees)
+    const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.team.employeesBirthday)
 
     const newState = state.map((el) => (
         <div key={el.id}>

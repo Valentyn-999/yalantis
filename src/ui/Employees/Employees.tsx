@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addEmployeesBirhdayAC, getEmployeesTC} from "../../bll/employees-reducer";
+import {addEmployeesBirthdayAC, getEmployeesTC, removeEmployeesAC} from "../../bll/employees-reducer";
 import {AppRootStateType} from "../../bll/store";
 import {EmployeeType2} from "../../dal/api";
 import style from "./Employees.module.css"
-import {removeEmployeesAC} from "../../bll/birthday-reducer";
+
 
 export const Employees = () => {
     const dispatch = useDispatch()
-    const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.employees.employees)
+    const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.team.employees)
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
     function dynamicSort(property: any) {
@@ -33,7 +33,7 @@ export const Employees = () => {
         // e.stopPropagation()
         let worker = state.find(el => el.id === id)
         if (isActive && worker) {
-            dispatch(addEmployeesBirhdayAC(worker))
+            dispatch(addEmployeesBirthdayAC(worker))
         } else if ((!isActive && worker)) {
             dispatch(removeEmployeesAC(worker))
         }
@@ -47,7 +47,6 @@ export const Employees = () => {
                 <div className={style.card}>{el}
                     {newState.filter(t => t.firstName.charAt(0).toLowerCase() === el)
                         .map((us) => {
-                            debugger
                                 return (
                                     <div key={us.id}>
                                         <span>{us.firstName}</span> <span>{us.lastName}</span>
