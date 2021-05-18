@@ -18,7 +18,7 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
         case getEmployees:
             let a = {
                 ...state,
-                employees: action.data.map((el: any) => {
+                employees: action.data.map((el: Array<EmployeeType2>) => {
                     return {...el, isChecked: false}
                 })
             }
@@ -26,13 +26,10 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
 
 
         case addEmployees: {
-            let arr = [...state.employeesBirthday]
+            let arr = [...state.employeesBirthday, ]
             state.employees.filter((el) => {
                 if (el === action.data) {
-                    arr.push({...el, isChecked: true})
-                    return {...el, isChecked: true}
-                } else {
-                    return null
+                    return arr.push({...el, isChecked: true })
                 }
             })
             let b = {
@@ -44,7 +41,7 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
                         return el
                     }
                 }),
-                employeesBirthday:  arr
+                employeesBirthday: arr
             }
             return b
         }
@@ -62,8 +59,6 @@ export const employeesReducer = (state: InitialStateType = initialState, action:
             }
             return c
         }
-        // return {...state, bthEmployees: state.bthEmployees.filter(el => el !== action.data)}
-
         default:
             return state
     }
