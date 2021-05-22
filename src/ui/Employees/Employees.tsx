@@ -89,9 +89,10 @@ export const Employees = () => {
 
 
     return (
-        <>
-            {res}
-        </>
+        <div>
+            <h2 className={style.title}>Employee</h2>
+            <div>{res}</div>
+        </div>
     );
 }
 

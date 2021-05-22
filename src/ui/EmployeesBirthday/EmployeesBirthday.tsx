@@ -11,22 +11,20 @@ const months = [ "January", "February", "March", "April", "May", "June",
 
 export const EmployeesBirthday = () => {
     const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.team.employeesBirthday)
-    // if (state[0].dob) {
-    //     const ss = state[0].dob.split('T')[0]
-    // }
 
 
-debugger
-    const newState = state.map((el) => (
-        <div key={el.id} className={style.container}>
-            <span>{el.firstName}</span> <span>{el.lastName}</span><br/>
-            <span>{el.dob.split('T')[0]}</span>
+    const newState = state.map(el => {
+        const parts = el.dob.split('T')[0].split("-").reverse()
+        return <div key={el.id} className={style.container}>
+            <span>{el.firstName}</span> <span>{el.lastName}</span> - <span>{`${Number(parts[0])} ${months[Number(parts[1])]} ${parts[2]} year`}</span>
         </div>
-        )
-    )
+    })
 
     return (
         <>
+            <h2 className={style.title}>
+                Employees birthdays
+            </h2>
             <div>
                 {newState}
             </div>
