@@ -4,12 +4,13 @@ import {addEmployeesBirthdayAC, getEmployeesTC, removeEmployeesAC} from "../../b
 import {AppRootStateType} from "../../bll/store";
 import {EmployeeType2} from "../../dal/api";
 import style from "./Employees.module.css"
+import {alphabet} from "../../bll/helper";
 
 
 export const Employees = () => {
     const dispatch = useDispatch()
     const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.team.employees)
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
 
     function dynamicSort(property: any) {
         let sortOrder = 1;
@@ -41,11 +42,11 @@ export const Employees = () => {
     }
 
 
-    const res = alphabet.map(el => (
-        <div key={el} className={style.container}>
+    const res = alphabet.map(letter => (
+        <div key={letter} className={style.container}>
             <div className={style.inliner}>
-                <div className={style.card}>{el}
-                    {newState.filter(t => t.firstName.charAt(0).toLowerCase() === el)
+                <div className={style.card}>{letter}
+                    {newState.filter(t => t.firstName.charAt(0).toLowerCase() === letter)
                         .map((us) => {
                                 return (
                                     <div key={us.id}>

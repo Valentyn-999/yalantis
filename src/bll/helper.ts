@@ -1,5 +1,6 @@
 export const months = ["January","February","March","April","May","June","July",
-    "August","September","October","November","December"]
+    "August","September","October","November","December"];
+export const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 const state = "2019-09-03T04:38:44.400Z"
 const parts = state.split('T')[0].split("-").reverse()

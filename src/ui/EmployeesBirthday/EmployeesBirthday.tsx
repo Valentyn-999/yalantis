@@ -3,21 +3,48 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../bll/store";
 import {EmployeeType2} from "../../dal/api";
 import style from "./EmployeesBirthday.module.css"
+import {months} from "../../bll/helper";
 
 
-const months = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
+// const months = [ "January", "February", "March", "April", "May", "June",
+//     "July", "August", "September", "October", "November", "December" ];
 
 
 export const EmployeesBirthday = () => {
     const state = useSelector<AppRootStateType, Array<EmployeeType2>>(s => s.team.employeesBirthday)
+    let arrOfMonths: Array<string> = []
 
+    const newDate = state.map(date => {
+        const parts = date.dob.split('T')[0].split("-").reverse()
+        return `${Number(parts[0])} ${months[Number(parts[1]) - 1]} ${parts[2]} year`
+    })
 
-    const newState = state.map(el => {
-        const parts = el.dob.split('T')[0].split("-").reverse()
-        return <div key={el.id} className={style.container}>
-            <span>{el.firstName}</span> <span>{el.lastName}</span> - <span>{`${Number(parts[0])} ${months[Number(parts[1])]} ${parts[2]} year`}</span>
-        </div>
+    newDate.map(el => (
+        arrOfMonths.push(el.split(' ')[1])
+    ))
+    // @ts-ignore
+    let uniqueChars = [...new Set(arrOfMonths)];
+
+    function sortByMonth(arr: Array<string>) {
+        let months = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        arr.sort(function (a, b) {
+            return months.indexOf(a) - months.indexOf(b);
+        });
+    }
+
+    sortByMonth(uniqueChars)
+
+    const newState = state.map(employee => {
+        const parts = employee.dob.split('T')[0].split("-").reverse()
+        const correctDate = `${Number(parts[0])} ${months[Number(parts[1])]} ${parts[2]} year`
+
+        return (
+            <div key={employee.id} className={style.container}>
+                <span>{employee.firstName}</span> <span>{employee.lastName}
+            </span> - <span>{correctDate}</span>
+            </div>
+        )
     })
 
     return (
